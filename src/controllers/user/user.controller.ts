@@ -22,16 +22,23 @@ export default class UserController {
             if(!this.validations.EmailRegex(user.email)){
                 return { ok: false, message: "Bad Format email value", response: null, code: 400}
             }
+            
+            if(!user){
+                return {ok: false, message: 'Invalid Data', response: null, code: 500}
+            }
+
             const response = await this.userService.creatUser(user)
-            console.log(response)
+
             if(response === 'Ya existe'){
                 return {ok: true, message: 'Ya existe', response: null, code: 301}    
             }
+
             return {ok: true, message: 'User created', response: response, code: 200}
         }catch(err: any){
             return {ok: false, message: 'Server Error', response: err.errorResponse.errmsg, code: 500}
         }
     }
+
     async findUserEmail(email: any):Promise<IResponse>{
         try{
 
@@ -62,7 +69,7 @@ export default class UserController {
 /////////////////////////////////DELETE//////////////////////////////////////////////////
 async deletUser(uid: any):Promise<IResponse>{
     try{
-        console.log(uid)
+        
         if(!uid || !mongoose.Types.ObjectId.isValid(uid)){
             return {ok: true, message:"The id value is not  valid", response: null, code: 200 }
         }

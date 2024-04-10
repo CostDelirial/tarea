@@ -26,19 +26,14 @@ export default class UserService {
     async creatUser(user: IUser):Promise<any>{
         try{
             await this.database.connectDB()
-            if(user){
-
+        
                 const exist = await userModel.findOne({email: user.email})
                 if(exist){
                     return 'Ya existe'
                 }else{
                     const createUser = await userModel.create(user) as any
-
                     return createUser
                 }
-
-            }
-            return 'Parametros incorrectos'
             
         }catch(err){
             throw err
