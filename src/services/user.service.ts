@@ -45,12 +45,24 @@ export default class UserService {
         }catch(err){
             throw err
         }finally{
-            this.database.disconnectDB
+            this.database.disconnectDB()
         }
     }
 
 /////////////////////////////////END PUSTS//////////////////////////////////////////////////
 /////////////////////////////////DELETE//////////////////////////////////////////////////
+
+async deleteUser(uid: any):Promise<any>{
+    try{
+        this.database.connectDB()
+        const userDelete = await userModel.deleteOne({_id: uid})
+        return userDelete
+    }catch(err){
+        throw err
+    }finally{
+        this.database.disconnectDB()
+    }
+}
 /////////////////////////////////END DELETE//////////////////////////////////////////////////
 
 
