@@ -23,6 +23,10 @@ export default class UserController {
                 return { ok: false, message: "Bad Format email value", response: null, code: 400}
             }
             const response = await this.userService.creatUser(user)
+            console.log(response)
+            if(response === 'Ya existe'){
+                return {ok: true, message: 'Ya existe', response: null, code: 301}    
+            }
             return {ok: true, message: 'User created', response: response, code: 200}
         }catch(err: any){
             return {ok: false, message: 'Server Error', response: err.errorResponse.errmsg, code: 500}
@@ -56,8 +60,18 @@ export default class UserController {
 //////////////////////////END PUTS////////////////////////////////////////////////////
 
 /////////////////////////////////DELETE//////////////////////////////////////////////////
-async deleteUser(uid: any):Promise<IResponse>{
-    try{}catch(err){}
+async deletUser(uid: any):Promise<IResponse>{
+    try{
+        console.log(uid)
+        if(!uid || !mongoose.Types.ObjectId.isValid(uid)){
+            return {ok: true, message:"The id value is not  valid", response: null, code: 200 }
+        }
+        const deletUser = await this.userService.deleteUser(uid)
+        return {ok: true, message:"Updated data", response: deletUser, code: 200 }
+    }catch(err){
+        console.log(err)
+        return {ok: false, message: "Server Error", response: err, code: 500}
+    }
 }
 /////////////////////////////////END DELETE//////////////////////////////////////////////////
     

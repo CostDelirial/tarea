@@ -5,7 +5,6 @@ export default class Validations {
         if(!regex.test(email)){
             return false
         }else{
-
             return true
         }
     }

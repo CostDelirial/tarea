@@ -23,11 +23,23 @@ export default class UserService {
             await this.database.disconnectDB()
         }
     }
-    async creatUser(user: IUser):Promise<IUser>{
+    async creatUser(user: IUser):Promise<any>{
         try{
             await this.database.connectDB()
-            const createUser = await userModel.create(user) as any
-            return createUser
+            if(user){
+
+                const exist = await userModel.findOne({email: user.email})
+                if(exist){
+                    return 'Ya existe'
+                }else{
+                    const createUser = await userModel.create(user) as any
+
+                    return createUser
+                }
+
+            }
+            return 'Parametros incorrectos'
+            
         }catch(err){
             throw err
         }finally{
@@ -54,7 +66,8 @@ export default class UserService {
 
 async deleteUser(uid: any):Promise<any>{
     try{
-        this.database.connectDB()
+        
+        await this.database.connectDB()
         const userDelete = await userModel.deleteOne({_id: uid})
         return userDelete
     }catch(err){

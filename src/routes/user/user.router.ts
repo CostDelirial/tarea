@@ -42,6 +42,15 @@ userRouter.put('/update/:uid', async (req: Request, res: Response ) => {
 /////////////////////////////////////END PUTS//////////////////////////////////////////////
 
 /////////////////////////////////DELETE//////////////////////////////////////////////////
+userRouter.delete('/:uid', async (req: Request, res: Response) => {
+    try{
+        const uid = req.params.uid
+        const response = await userController.deletUser(uid)
+        return res.status(response.code).json(response)
+    }catch(err: any){
+        return res.status(err.code ? err.code: 500).json(err)
+    }
+})
 /////////////////////////////////END DELETE//////////////////////////////////////////////////
 
 
