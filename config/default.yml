@@ -1,0 +1,16 @@
+api:
+  identifier: 'BasicPT'
+  port: 5002
+
+logger:
+  options:
+    level: trace
+
+mongodb:
+  url: 'mongodb://127.0.0.1:27017'
+  database: 'BasicPT'
+  timeout: 10000
+  options:
+    useUnifiedTopology: true
+    useNewUrlParser: true
+
